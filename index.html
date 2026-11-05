@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QUIZ UKASYA • Modern</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
+body{background:#0a0a12;color:white;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+.bg{position:fixed;inset:0;background:radial-gradient(600px at 20% 0%,#ff0055 0%,transparent 60%),radial-gradient(600px at 90% 100%,#00c3ff 0%,transparent 60%);opacity:.35;pointer-events:none}
+.app{position:relative;width:100%;max-width:420px;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.2);border-radius:28px;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#ccc}
+.logo{font-size:32px}
+.bar{height:8px;background:rgba(255,255,255,.15);border-radius:20px;margin:14px 0;overflow:hidden}
+.fill{height:100%;width:0%;background:linear-gradient(90deg,#ff0055,#ffaa00);transition:.4s;border-radius:20px}
+h1{font-size:26px;line-height:1.2}
+.sub{color:#bbb;font-size:13px;margin:8px 0 18px;line-height:1.5}
+label{font-size:13px;color:#ddd;display:block;margin:14px 0 6px}
+input,select,textarea{width:100%;padding:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;color:white;font-size:15px;outline:none}
+input::placeholder,textarea::placeholder{color:#aaa}
+select option{color:black}
+.opt{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.chip{padding:10px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;font-size:13px;cursor:pointer}
+.chip.on{background:#ff0055;border-color:#ff0055;font-weight:900}
+.qcard{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:16px;margin-top:14px}
+.qcard b{font-size:15px}
+.qcard p{font-size:12px;color:#aaa;margin-top:4px}
+.btn{margin-top:18px;width:100%;padding:16px;border:none;border-radius:16px;background:linear-gradient(90deg,#ff0055,#ff6a00);color:white;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 10px 25px rgba(255,0,85,.4)}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5}
+.step{display:none}
+.step.on{display:block}
+.sukses{text-align:center;padding:20px 0}
+.sukses .big{font-size:70px}
+.tag{display:inline-block;background:rgba(0,255,140,.15);color:#00ff8c;padding:6px 12px;border-radius:50px;font-size:11px;margin:4px}
+.foot{margin-top:14px;text-align:center;font-size:11px;color:#777}
+</style></head>
+<body>
+<div class="bg"></div>
+<div class="app">
+<div class="top"><span>✨ UKASYA • QUIZ</span><span id="persen">0%</span></div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+
+<!-- STEP 1 -->
+<div class="step on" id="s1">
+<div class="logo">🤔</div>
+<h1>Seberapa Kenal<br>Lu Sama Ukasya?</h1>
+<p class="sub">Quiz modern, 30 detik doang. Jawab jujur, jawaban lu langsung kekirim ke Ukasya secara rahasia. 🔒</p>
+<label>Nama Lu</label>
+<input id="nama" placeholder="Contoh: Farel, Bima, dll">
+<label>Kelas Lu</label>
+<input id="kelas" placeholder="Contoh: 7A, 8B">
+<label>Seberapa deket lu sama Ukasya?</label>
+<div class="opt" id="deket">
+<div class="chip" onclick="pilih(this,'deket')">👑 Bestie Banget</div>
+<div class="chip" onclick="pilih(this,'deket')">😎 Lumayan Deket</div>
+<div class="chip" onclick="pilih(this,'deket')">😐 Baru Kenal</div>
+<div class="chip" onclick="pilih(this,'deket')">🤡 Ga Kenal</div>
+</div>
+<button class="btn" onclick="next(1,2)">LANJUT ➜</button>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="s2">
+<div class="logo">😎</div>
+<h1>Menurut Lu,<br>Ukasya Itu...?</h1>
+<div class="qcard"><b>1. Ukasya paling jago apa?</b><p>Pilih satu yang paling bener</p>
+<div class="opt" id="q1"><div class="chip" onclick="pilih(this,'q1')">Nge-prank</div><div class="chip" onclick="pilih(this,'q1')">Ganteng</div><div class="chip" onclick="pilih(this,'q1')">Main game</div><div class="chip" onclick="pilih(this,'q1')">Tidur</div></div></div>
+<div class="qcard"><b>2. Kalau Ukasya ultah, lu mau ngasih apa?</b>
+<div class="opt" id="q2"><div class="chip" onclick="pilih(this,'q2')">Traktir + Kado</div><div class="chip" onclick="pilih(this,'q2')">Cuma HBD</div><div class="chip" onclick="pilih(this,'q2')">Lupa</div></div></div>
+<button class="btn" onclick="next(2,3)">LANJUT ➜</button>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" id="s3">
+<div class="logo">💖</div>
+<h1>Terakhir,<br>Jujur Ya!</h1>
+<label>Rate Ukasya 1-10</label>
+<select id="rate"><option>10 - Sempurna, ga ada lawan!</option><option>9 - Ganteng banget</option><option>8 - Keren</option><option>7 - Biasa aja</option><option>1-6 - Berani lu! 😡</option></select>
+<label>Pesan rahasia buat Ukasya (ga bakal disebar!)</label>
+<textarea id="pesan" rows="3" placeholder="Tulis jujur... suka / benci / kangen / mau bilang apa ke Ukasya?"></textarea>
+<label>Lu mau Ukasya traktir lu apa?</label>
+<input id="mau" placeholder="Contoh: Cilok, Yakult, Seblak...">
+<button class="btn" id="kirimBtn" onclick="kirim()">🚀 KIRIM JAWABAN KE UKASYA</button>
+<p style="font-size:11px;color:#aaa;text-align:center;margin-top:8px">🔒 Jawaban lu cuma bisa diliat Ukasya</p>
+</div>
+
+<!-- SUKSES -->
+<div class="step" id="s4">
+<div class="sukses">
+<div class="big">✅</div>
+<h1>Makasih!<br>Jawaban Terkirim!</h1>
+<p class="sub">Jawaban lu udah masuk ke email Ukasya.<br>Ukasya bakal baca satu-satu!</p>
+<div><span class="tag">✨ Terkirim ke Server</span><span class="tag">📩 Masuk Email</span></div>
+<p style="margin-top:15px;font-size:28px">🤣 KENA PRANK!</p>
+<p style="font-size:13px;color:#bbb">Ini quiz prank dari Ukasya Ganteng 😎<br>HP lu aman, tapi lu udah ketipu!</p>
+<button class="btn" onclick="location.reload()">🔁 KIRIM KE TEMEN LAIN</button>
+</div>
+</div>
+
+<div class="foot">Made with 💖 by UKASYA • 2026 • Modern Quiz</div>
+</div>
+
+<script>
+let pilihData={};
+function pilih(el,grup){
+document.querySelectorAll('#'+grup+' .chip').forEach(c=>c.classList.remove('on'));
+el.classList.add('on'); pilihData[grup]=el.innerText;
+}
+function next(dari,ke){
+if(dari==1 && !document.getElementById('nama').value){alert('Isi nama lu dulu bro!');return;}
+document.getElementById('s'+dari).classList.remove('on');
+document.getElementById('s'+ke).classList.add('on');
+let p=ke==2?50:ke==3?85:0;
+document.getElementById('fill').style.width=p+'%';
+document.getElementById('persen').innerText=p+'%';
+window.scrollTo(0,0);
+}
+async function kirim(){
+let btn=document.getElementById('kirimBtn');
+btn.innerText='MENGIRIM...'; btn.disabled=true;
+
+let data={
+nama: document.getElementById('nama').value,
+kelas: document.getElementById('kelas').value,
+kedekatan: pilihData['deket']||'-',
+q1_jago_apa: pilihData['q1']||'-',
+q2_kalau_ultah: pilihData['q2']||'-',
+rate: document.getElementById('rate').value,
+pesan_rahasia: document.getElementById('pesan').value,
+mau_ditraktir: document.getElementById('mau').value,
+waktu: new Date().toLocaleString('id-ID')
+};
+
+// 👇 GANTI EMAIL INI PAKE EMAIL LU!
+let emailLu = "stoknaffstr01@gmail.com";
+
+try{
+let res=await fetch("https://formsubmit.co/ajax/"+emailLu,{
+method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+body:JSON.stringify({name:"QUIZ UKASYA MODERN",message:JSON.stringify(data,null,2),_subject:"🔥 ADA YANG JAWAB QUIZ UKASYA!",_template:"table",_captcha:"false"})
+});
+if(res.ok){
+document.getElementById('s3').classList.remove('on');
+document.getElementById('s4').classList.add('on');
+document.getElementById('fill').style.width='100%';
+document.getElementById('persen').innerText='100%';
+}else throw new Error();
+}catch(e){alert('Gagal ngirim, cek internet / email belum aktivasi!');btn.innerText='🚀 KIRIM JAWABAN KE UKASYA';btn.disabled=false;}
+}
+</script>
+</body></html>
